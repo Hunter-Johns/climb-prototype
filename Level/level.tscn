@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://b475w5m3qk5yk"]
+
+[ext_resource type="PackedScene" uid="uid://bfap0xexss76" path="res://Player/player.tscn" id="1_0mtr1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3dfup"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_a6xf1"]
+sky_material = SubResource("ProceduralSkyMaterial_3dfup")
+
+[sub_resource type="Environment" id="Environment_8ovmn"]
+background_mode = 2
+sky = SubResource("Sky_a6xf1")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u7hg0"]
+albedo_color = Color(0.231373, 1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lsdal"]
+size = Vector3(1, 1, 1.0144)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8ovmn")
+
+[node name="Player" parent="." instance=ExtResource("1_0mtr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.03276, 1.8417, -3.30638)
+
+[node name="LeftHandCast" parent="Player/Head" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.453234, 0.0370674, -0.341093)
+debug_shape_custom_color = Color(0.952941, 0, 0, 1)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.79878, -0.358398, -20.5559)
+use_collision = true
+size = Vector3(12.5976, 0.283203, 42.1118)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88384, 2.98924, -18.5881)
+material = SubResource("StandardMaterial3D_u7hg0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="CSGCombiner3D/CSGBox3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGCombiner3D/CSGBox3D2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.00720215)
+shape = SubResource("BoxShape3D_lsdal")
+
+[editable path="Player"]
